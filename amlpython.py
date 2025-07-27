@@ -109,6 +109,108 @@ print(paycheck(60, 20))  # prints warning and returns pay + bonus
 for i in range(5):
     print(i)
 
+# Task 7.2
+def print_range(start, end):
+    if start < end:
+        for i in range(start, end):
+            print(i)
+    else:
+        print("range error")
+
+print_range(4, 7)  # prints 4,5,6
+print_range(7, 4)  # prints "range error"
 
 
+# Task 7.3
+def double_list(lst):
+    result = []
+    for x in lst:
+        result.append(x * 2)
+    return result
 
+print(double_list([1, 2, 3, 4]))  # [2, 4, 6, 8]
+
+
+# Task 7.4 (for loop with indexing)
+def print_list_with_indexes(items):
+    for i in range(len(items)):
+        print(i, items[i])
+
+
+# Task 8.1 (while loop equivalent)
+names = ["Angie", "Brian", "Claire", "David", "Emily"]
+i = 0
+while i < len(names):
+    print("Hello", names[i])
+    i += 1
+
+
+# Task 8.2
+def sum_list(lst):
+    total = 0
+    i = 0
+    while i < len(lst):
+        total += lst[i]
+        i += 1
+    return total
+
+print(sum_list([1, 2, 3, 4]))  # 10
+
+
+# Task 8.3
+def sum_positive(lst):
+    total = 0
+    i = 0
+    while i < len(lst):
+        if lst[i] > 0:
+            total += lst[i]
+        i += 1
+    return total
+
+print(sum_positive([1, -2, 3, 4]))  # 8
+
+
+# Task 8.4
+def sum_positive_for(lst):
+    total = 0
+    for i in range(len(lst)):
+        if lst[i] > 0:
+            total += lst[i]
+    return total
+
+print(sum_positive_for([1, -2, 3, 4]))  # 8
+
+# Task 9.1
+for i in range(1, 4):     
+    for j in range(1, 5): 
+        print(i, j)
+
+# Task 9.2 
+for i in range(2, 5):         
+    for j in range(1, 6):     
+        print(i, "*", j, "=", i * j)
+    print()  
+
+class BankAccount:
+    def __init__(self, name, account_number):
+        self.name = name
+        self.account_number = account_number
+        self.balance = 0
+
+    def deposit(self, amount):
+        self.balance += amount
+
+# Task 10.1 — Withdraw function with balance check
+    def withdraw(self, amount):
+        if amount <= self.balance:
+            self.balance -= amount
+        else:
+            print("insufficient funds")
+
+# Task 10.2 — Transfer money between accounts
+    def transfer(self, other_acct, amount):
+        if amount <= self.balance:
+            self.balance -= amount
+            other_acct.balance += amount
+        else:
+            print("insufficient funds")
