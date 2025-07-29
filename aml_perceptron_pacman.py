@@ -8,12 +8,10 @@ from random import randrange
 from pacman import GameState
 
 class PerceptronClassifierPacman(PerceptronClassifier):
-  #prewritten------------------------------------------------------------------#
     def __init__(self, legalLabels, maxIterations):
         PerceptronClassifier.__init__(self, legalLabels, maxIterations)
         self.weights = [] #Helpers.util.Counter()
         self.epochs = maxIterations
-    
 
     def convert_data(self, data):
         # fix datatype issues
@@ -44,58 +42,67 @@ class PerceptronClassifierPacman(PerceptronClassifier):
 
         return (return_features, legal_moves) 
 
- #endl prewritten------------------------------------------------------------------#
-  
+    #### MINE
     def classify(self, data):
-    # Convert the input into features and legal moves
-    features, legal_moves = self.convert_data(data)
 
-    # Compute scores for each legal move
-    outputs = []
-    for move in legal_moves:
-        move_features = features[move]
-        score = 0
-        for i in range(len(move_features)):
-            score += self.weights[i] * move_features[i]
-        outputs.append(score)
+        features, legal_moves = self.convert_data(data)
+        
+        #Compute the output value for each possible label
+        outputs = []
+        for l in legal_moves:
+            feat = features[l] #grab the features for this one action
+            dotProduct = 0
+            for i in range(len(feat)):
+                #print("-- mine", self.weights[i], feat[i])
+                dotProduct += self.weights[i] * feat[i]
+            #print("mine", dotProduct)
+            outputs.append(dotProduct)
 
-    # Choose the move with the highest score
-    max_score = outputs[0]
-    best_move = legal_moves[0]
-    for i in range(len(outputs)):
-        if outputs[i] > max_score:
-            max_score = outputs[i]
-            best_move = legal_moves[i]
+        #print("mine", legal_moves, outputs)
+        #Return the label with the highest output value
+        maxScore = outputs[0]
+        maxLabel = legal_moves[0]
+        for i in range(len(outputs)):
+            if outputs[i] > maxScore:
+                maxScore = outputs[i]
+                maxLabel = legal_moves[i]
+        return [maxLabel] #needs to be returned in a list
+        #### END MINE ###
+ 
+    
 
-    return [best_move]
-#-------------------------#
-def train(self, trainingData, trainingLabels):
-    # Initialize weights (14 features)
-    self.weights = []
-  
-    for i in range(14):
-        r = randrange(-1, 1)
-        self.weights.append(r)
+    def train(self, trainingData, trainingLabels):
 
-    for iteration in range(self.epochs):
-        correct = 0
-        for i in range(len(trainingData)):
-            actual = trainingLabels[i]
-            predicted = self.classify(trainingData[i])[0]
+        #init weights
+        self.weights = [randrange(-1,1) for x in range(14)] #[[randrange(-1,1) for x in range(len(trainingData[0]))] for y in range(len(self.legalLabels))]
+        
+        for iteration in range(self.epochs):
+            num_correct = 0
+            for i in range(len(trainingData)):
 
-            # Get feature vectors for both predicted and actual moves
-            features, legal_moves = self.convert_data(trainingData[i])
-            actual_feat = features[actual]
-            predicted_feat = features[predicted]
+                real = trainingLabels[i]
+                pred = self.classify(trainingData[i])[0] #returned as a list, pull it out of the list
+            
+                #convert the data record
+                features, legal_moves = self.convert_data(trainingData[i])
+                #print(len(features[legal_moves[0]]))
+                
+                features_real = features[real] #grab the features for the actual
+                features_pred = features[pred] #grab the features for the pred
 
-            if actual != predicted:
-                for j in range(len(actual_feat)):
-                    self.weights[j] += actual_feat[j]
-                    self.weights[j] -= predicted_feat[j]
-            else:
-                correct += 1
+                if real != pred:
+                    for j in range(len(features_real)):
+                        self.weights[j] += features_real[j] 
+                        self.weights[j] -= features_pred[j]   
+                else:
+                    num_correct += 1
 
-        print("epoch", iteration, "....", round(correct / len(trainingData), 2) * 100, "% correct.")
-#-------------------------#
+            print("epoch", iteration, "....", round(num_correct/len(trainingData), 2) * 100, "% correct.")
 
-          
+
+
+
+
+
+
+
