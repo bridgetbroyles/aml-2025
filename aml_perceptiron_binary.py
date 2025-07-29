@@ -2,12 +2,15 @@
 Python allows negative indexing in lists: list[-1] = last element.
 
 Perceptron
-A simple linear classifier that finds a line or hyperplane to separate two classes. It computes a weighted sum of inputs plus a bias, then outputs 1 if the sum ≥ 0 or 0 otherwise.
+A simple linear classifier that finds a line or hyperplane to separate two classes. 
+It computes a weighted sum of inputs plus a bias, then outputs 1 if the sum ≥ 0 or 0 otherwise.
 
 Bias
-An extra weight added to the sum (not tied to any feature). It shifts the decision boundary away from the origin, letting the model fit data that aren’t centered at zero.
+An extra weight added to the sum (not tied to any feature). It shifts the decision boundary away 
+from the origin, letting the model fit data that aren’t centered at zero.
 
-train_data is a list of rows. Each row is [feature1, feature2, …, featureN, label]. Features are inputs, label (row[-1]) is the true class (0 or 1). Weights is a list of N+1 numbers: one per feature plus the bias.
+train_data is a list of rows. Each row is [feature1, feature2, …, featureN, label]. Features are inputs, 
+label (row[-1]) is the true class (0 or 1). Weights is a list of N+1 numbers: one per feature plus the bias.
 '''
 
 
@@ -17,9 +20,9 @@ from random import randrange
 #-------------------------#
 
 def classify(row, weights):
- activation = weights[-1]                               # might be unneeded
-   for i in range(len(row)-1):                            # might be not -1
-        activation += weights[i] * row[i]
+ activation = weights[-1]                              # roundabout way to add b
+   for i in range(len(row)-1):                         
+        activation += weights[i] * row[i]              # wixi + w2x2 + w3x3 + b ... 
     return 1.0 if activation >= 0.0 else 0.0
 
 #-------------------------#
@@ -50,8 +53,8 @@ def train(train_data, n_epochs, l_rate=1):
                 weights[-1] = weights[-1] + l_rate * error
 
                 # Update the rest of the weights
-                for i in range(len(row) - 1):                  # exclude the label at the end
-                    weights[i] = weights[i] + l_rate * error * row[i]
+                for i in range(len(row) - 1):                          # exclude the label at the end
+                    weights[i] = weights[i] + l_rate * error * row[i]  # wi = wi + n(error*xi) : l_rate = n, row[i] = xi
 
         # Print percentage of correctly classified records for this epoch
         accuracy = num_correct / len(train_data)
