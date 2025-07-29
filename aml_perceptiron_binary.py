@@ -74,6 +74,8 @@ def accuracy_metric(actual, predicted):
     return (correct / len(actual)) * 100
 
 # 2. Split a dataset into k roughly equal folds
+
+# split each row into randomly ordered folds, each is only used once because is removed.
 def cross_validation_split(dataset, n_folds):
     dataset_copy = list(dataset)           # make a shallow copy
     fold_size = len(dataset) // n_folds    # integer size of each fold
