@@ -5,10 +5,6 @@ unlabeled and unstudied, changed to student version
 import Helpers.util
 from random import randrange
 
-###############
-# SOLUTION CODE
-###############
-
 class PerceptronClassifier:
   
 # already written
@@ -51,12 +47,12 @@ def train(self, trainingData, trainingLabels):
         correct = 0
         for i in range(len(trainingData)):
             inputs = trainingData[i]
-            actual = trainingLabels[i]
+            actual = trainingLabels[i] # answer
             guess = self.classify(inputs)
 
             if guess != actual:
                 for j in range(len(inputs)):
-                    self.weights[actual][j] += inputs[j]
+                    self.weights[actual][j] += inputs[j] # add to actual because is a max, so it is always too large
                     self.weights[guess][j] -= inputs[j]
             else:
                 correct += 1
