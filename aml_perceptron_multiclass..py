@@ -1,5 +1,5 @@
 ''' notes
-unlabeled and unstudied, changed to student version
+changed
 '''
 
 import Helpers.util
