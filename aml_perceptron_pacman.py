@@ -87,8 +87,9 @@ class PerceptronClassifierPacman(PerceptronClassifier):
                 features, legal_moves = self.convert_data(trainingData[i])
                 #print(len(features[legal_moves[0]]))
                 
-                features_real = features[real] #grab the features for the actual
-                features_pred = features[pred] #grab the features for the pred
+                features_real = features[real] #grab the features for the actual            # features[real] returns the list paired with the choice
+                features_pred = features[pred] #grab the features for the pred               # ex {'East', {.2 , 4 , 5, 6 , ... , .3 }} 
+                                                                                            # the numbers are basically how good of a move East is, data for weights
 
                 if real != pred:
                     for j in range(len(features_real)):
