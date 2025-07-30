@@ -18,10 +18,10 @@ class PerceptronClassifier:
   def classify(self, data):
     # Find score for each label by doing dot product with weights
     scores = []
-    for label_index in range(len(self.legalLabels)):
+    for label_index in range(len(self.legalLabels)):    # legal labels is just 0 - 9
         score = 0
         for i in range(len(data)):
-            score += self.weights[label_index][i] * data[i]
+            score += self.weights[label_index][i] * data[i]   # data is flattened 2D array of the values in each pixel
         scores.append(score)
 
     # Find the label with the biggest score
@@ -31,7 +31,7 @@ class PerceptronClassifier:
         if scores[i] > best_score:
             best_score = scores[i]
             best_label = i
-    return best_label
+    return best_label # return label not best score
 
 def train(self, trainingData, trainingLabels):
     # Start with random weights for each label
@@ -48,11 +48,14 @@ def train(self, trainingData, trainingLabels):
         for i in range(len(trainingData)):
             inputs = trainingData[i]
             actual = trainingLabels[i] # answer
-            guess = self.classify(inputs)
+            guess = self.classify(inputs) # our guess
 
             if guess != actual:
                 for j in range(len(inputs)):
-                    self.weights[actual][j] += inputs[j] # add to actual because is a max, so it is always too large
+                  # lower score of wrong answer, raise score of correct answer, 
+                  # we lower because since classify returns the maxLabel, the maxLabel that 
+                  # this wrong answer has is too large.
+                    self.weights[actual][j] += inputs[j]
                     self.weights[guess][j] -= inputs[j]
             else:
                 correct += 1
