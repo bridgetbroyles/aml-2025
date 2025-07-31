@@ -33,33 +33,22 @@ class PerceptronClassifier:
             best_label = i
     return best_label # return label not best score
 
-def train(self, trainingData, trainingLabels):
-    # Start with random weights for each label
-    self.weights = []
-    for label in self.legalLabels:
-        weight = []
-        for i in range(len(trainingData[0])):
-            weight.append(randrange(-1, 1))
-        self.weights.append(weight)
-
-    # Train over multiple passes through the data
-    for epoch in range(self.epochs):
-        correct = 0
-        for i in range(len(trainingData)):
-            inputs = trainingData[i]
-            actual = trainingLabels[i] # answer
-            guess = self.classify(inputs) # our guess
-
-            if guess != actual:
-                for j in range(len(inputs)):
-                  # lower score of wrong answer, raise score of correct answer, 
-                  # we lower because since classify returns the maxLabel, the maxLabel that 
-                  # this wrong answer has is too large.
-                    self.weights[actual][j] += inputs[j]
-                    self.weights[guess][j] -= inputs[j]
-            else:
-                correct += 1
-
-        accuracy = round(correct / len(trainingData) * 100, 2)
-        print("Epoch", epoch, "Accuracy:", accuracy, "%")
+  def train( self, trainingData, trainingLabels):
+          self.weights = [[randrange(-1,1) for x in range(len(trainingData[0]))] for y in range(len(self.legalLabels))]
+          for iteration in range(self.epochs):
+              num_correct = 0
+              for i in range(len(trainingData)):
+                  real = trainingLabels[i]
+                  pred = self.classify(trainingData[i])
+                  if real != pred:
+                      for j in range(len(trainingData[i])):
+                        # lower score of wrong answer, raise score of correct answer, 
+                        # we lower because since classify returns the maxLabel, the maxLabel that 
+                        # this wrong answer has is too large.
+                          self.weights[real][j] += trainingData[i][j]
+                          self.weights[pred][j] -= trainingData[i][j]
+                  else:
+                      num_correct += 1
+              print("epoch", iteration, "....", round(num_correct/len(trainingData), 2) * 100, "% correct.")
+  
 
