@@ -20,7 +20,6 @@ class PacmanQAgent(QLearningAgent):
         self.doAction(state, action)  # tell the game what action Pacman took
         return action
 
-
 class ApproximateQAgent(PacmanQAgent):
     """
     Q-learning agent that uses feature-based approximation instead of a table.
@@ -36,6 +35,8 @@ class ApproximateQAgent(PacmanQAgent):
     def getWeights(self):
         # Return the current weights dictionary
         return self.weights
+
+#--------------#
 
     def getQValue(self, state, action):
         # Calculate Q(state,action) = sum of (weight * feature value)
@@ -53,9 +54,10 @@ class ApproximateQAgent(PacmanQAgent):
         difference = target - oldQVal
         for feat in feats:
             self.weights[feat] += self.alpha * difference * feats[feat]  # update rule
-
+#------#
     def final(self, state):
         # Called at the end of each game
+        #-
         PacmanQAgent.final(self, state)
 
         # Check if training is done
