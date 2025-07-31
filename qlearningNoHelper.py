@@ -81,6 +81,10 @@ class QLearningAgent(ReinforcementAgent):
         futureReward = self.computeValueFromQValues(nextState)
         sample = reward + self.discount * futureReward
         self.qVals[state][action] = oldQ + self.alpha * (sample - oldQ)
+
+        # self.qVals[state][action] = self.getQValue(state, action) + 
+        # self.alpha * ((reward + self.discount * self.computeValueFromQValues(nextState)) - self.getQValue(state, action))
+
 #--------------------------#
     def getPolicy(self, state):
         return self.computeActionFromQValues(state)
